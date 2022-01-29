@@ -1,0 +1,83 @@
+/* task1.css */
+
+.task-1 {
+  padding: 30px 0;
+  font-family: sans-serif;
+  font-size: calc( 10px + (14 - 10) * ((100vw - 400px) / ( 800 - 400)));
+  background: #260F26;
+}
+
+.task-1__header {
+  margin-bottom: 40px;
+}
+
+.task-1__container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, .5);
+  background: #361F36;
+}
+
+.task-1__menu {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 20px 5%;
+}
+
+.menu-task-1__item {
+  line-height: 120%;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: .6;
+
+  border-bottom: .2rem solid transparent;
+}
+
+.menu-task-1__item:not(:last-child) {
+  margin-right: 20px;
+}
+
+.menu-task-1__item:hover {
+  opacity: 1;
+  border-bottom-color: hsl(60, 50%, 50%);
+}
+
+.menu-task-1__item-active,
+.menu-task-1__item-active:hover {
+  opacity: 1;
+  border-bottom-color: hsl(120, 50%, 50%);
+}
+
+.task-1__article {
+  padding: 5%;
+}
+
+.task-1__title {
+  margin-bottom: 1em;
+  color: #fff;
+  opacity: 0.8;  
+}
+
+.task-1__paragraph {
+  margin-bottom: 0.6em;
+  line-height: 1.5;
+  color: #fff;
+  opacity: .6;
+}
+
+@media screen and (max-width: 400px) {
+  .task-1 {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .task-1 {
+    font-size: 14px;
+  }
+}
