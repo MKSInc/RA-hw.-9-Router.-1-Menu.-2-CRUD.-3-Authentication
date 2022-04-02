@@ -1,14 +1,12 @@
-import { NavLink } from 'react-router-dom';
-
-const setActive = ({isActive}) => isActive ? 'menu-task-1__item menu-task-1__item-active' : 'menu-task-1__item';
+import Task1Link from './Task1Link';
 
 export default function MenuTask1() {
   return (
     <nav className="task-1__menu menu-task-1">
-      <NavLink className={setActive} to="/">Главная</NavLink>
-      <NavLink className={setActive} to="/drift">Дрифт-такси</NavLink>
-      <NavLink className={setActive} to="/timeattack">Time Attack</NavLink>
-      <NavLink className={setActive} to="/forza">Forza Karting</NavLink>
+      <Task1Link className='menu-task-1__item' to="">Главная</Task1Link>
+      <Task1Link className='menu-task-1__item' to="drift">Дрифт-такси</Task1Link>
+      <Task1Link className='menu-task-1__item' to="timeattack">Time Attack</Task1Link>
+      <Task1Link className='menu-task-1__item' to="forza">Forza Karting</Task1Link>
     </nav>
   )
 }

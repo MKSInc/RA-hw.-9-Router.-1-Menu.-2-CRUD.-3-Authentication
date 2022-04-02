@@ -4,7 +4,6 @@ import HomePage from './pages/HomePage';
 import DriftPage from './pages/DriftPage';
 import ForzaPage from './pages/ForzaPage';
 import TimeAttackPage from './pages/TimeAttackPage';
-
 import './task1.css';
 
 export default function Task1() {
@@ -17,10 +16,11 @@ export default function Task1() {
       </header>
       <div className='task-1__container'>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/drift" element={<DriftPage />} />
-          <Route path="/forza" element={<ForzaPage />} />
-          <Route path="/timeattack" element={<TimeAttackPage />} />
+          {/* Так как компонент Task1 уже находится в контексте 'task1/', то слеш в далее следующих путях не нужен. */}
+          <Route index element={<HomePage />} />
+          <Route path="drift" element={<DriftPage />} />
+          <Route path="forza" element={<ForzaPage />} />
+          <Route path="timeattack" element={<TimeAttackPage />} />
         </Routes>
       </div>
     </div>

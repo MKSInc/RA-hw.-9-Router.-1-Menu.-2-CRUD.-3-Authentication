@@ -1,0 +1,74 @@
+/* post-edit-crud.css */
+
+.post-edit-crud__header {
+  padding: 12px 0;
+  border-bottom: 1px solid #d9dce0;
+  background-color: #f5f6f7;
+}
+
+.header-post-edit-crud__body {
+  display: flex;
+  align-items: center;
+}
+
+.post-edit-crud__title {
+  flex: 1 1 auto;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.post-edit-crud__btn-close {
+  position: relative;
+  flex: 0 0 10px;
+  height: 10px;
+}
+
+.post-edit-crud__btn-close::before,
+.post-edit-crud__btn-close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  background-color: #bdc1c8;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.post-edit-crud__btn-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.post-edit-crud__main {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0 8px 0;
+  border-bottom: 1px solid #d9dce0;
+}
+
+.post-edit-crud__menu {
+  margin-bottom: 8px;
+}
+
+.menu-post-edit-crud__list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -4px;
+  padding-top: 8px;
+}
+
+.menu-post-edit-crud__list li {
+  flex: 0 0 50%;
+  padding: 4px;
+}
+
+.menu-post-edit-crud__link {
+  display: block;
+  padding: 10px 20px;
+
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 17px;
+  background-color: #f5f6f7;
+  color: #60676f;
+}

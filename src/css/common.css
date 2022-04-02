@@ -22,12 +22,15 @@ ul, ol {
 }
 
 a {
+	color: inherit;
 	text-decoration: none;
 	cursor: pointer;
 }
 
 button {
 	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
 
 	border: none;
 	background-color: transparent;

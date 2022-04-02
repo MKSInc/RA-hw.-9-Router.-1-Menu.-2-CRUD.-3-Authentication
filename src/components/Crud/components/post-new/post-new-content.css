@@ -1,0 +1,7 @@
+/* post-new-content.css */
+
+.post-new-crud__main {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0 8px 0;
+}
