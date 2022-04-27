@@ -20,6 +20,8 @@ export default function HomePage() {
     const posts = await request(`${links.root}/posts`);
     if (posts) setPosts(posts)
   }, [request]);
+
+  console.log('HomePage waitingResponse', waitingResponse);
   
   useEffect(() => {
     if (!waitingResponse) {
