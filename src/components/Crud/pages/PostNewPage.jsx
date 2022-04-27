@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useAppContext from '../hooks/useAppContext';
+import useHttp from '../hooks/useHttp';
 import PostNewHeader from '../components/post-new/PostNewHeader';
 import PostNewContent from '../components/post-new/PostNewContent';
 import CrudMenu from '../components/CrudMenu';
@@ -9,16 +11,35 @@ const menuPostNewLinks = [
 ];
 
 export default function PostNewPage() {
+  const { setWaitingResponse } = useAppContext();
+  const { request, error, cleanError } = useHttp();
+
   const [ content, setContent ] = useState('');
 
-  const handlePublishClick = () => {
-    fetch(`${links.root}/posts`, {
+  const handlePublishClick = async () => {
+    setWaitingResponse(true);
+
+    await request(`${links.root}/posts`, {
       method: 'POST',
       body: content,
-    })
-      .then((response) => response.json())
-      .then((data) => {if (!data.success) throw new Error('Ошибка при добавлении поста.')});
+    });
+
+    setWaitingResponse(false);
   };
+
+  useEffect(() => {
+    if (error) {
+      cleanError();
+      // Здесь можно выдать сообщение об ошибке.
+    }
+  }, [error, cleanError]);
+
+  // Чтобы предотвратить ошибку в консоли: "Can't perform a React state update on an unmounted component. ..."
+  useEffect(() => {
+    return () => {
+      setContent('');
+    };
+  }, []);
 
   menuPostNewLinks.find((link) => link.name === 'Опубликовать')
     .onClick = handlePublishClick;

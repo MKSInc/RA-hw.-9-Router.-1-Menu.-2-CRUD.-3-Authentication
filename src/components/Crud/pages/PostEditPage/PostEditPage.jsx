@@ -1,5 +1,7 @@
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import useAppContext from '../../hooks/useAppContext';
+import useHttp from '../../hooks/useHttp';
 import CrudMenu from '../../components/CrudMenu';
 import Publication from '../../components/post-new/Publication';
 import ActionItem from './ActionItem';
@@ -12,25 +14,47 @@ const menuPostEditLinks = [
 ];
 
 export default function PostEditPage() {
+  const { setWaitingResponse } = useAppContext();
+  const { request, error, cleanError } = useHttp();
+  
   const [ content, setContent ] = useState('');
   const [ post, setPost ] = useState(null);
   const { id } = useParams();
 
-  useEffect(() => {
-    fetch(`${links.root}/post/${id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setContent(data.content);
-        setPost(data);
-      });
-  }, [id]);
+  const fetchData = useCallback(async () => {
+    const responsePost = await request(`${links.root}/post/${id}`);
+    if (responsePost) {
+      setPost(responsePost);
+      setContent(responsePost.content);
+    }
+  }, [id, request]);
 
-  const handleSaveClick = () => {
-    fetch(`${links.root}/save`, {
+  useEffect(() => fetchData(), [fetchData]);
+
+  const handleSaveClick = async () => {
+    setWaitingResponse(true);
+
+    await request(`${links.root}/save`, {
       method: 'POST',
       body: JSON.stringify({...post, content}),
-    })
+    });
+
+    setWaitingResponse(false);
   };
+
+  useEffect(() => {
+    if (error) {
+      cleanError();
+      // Здесь можно выдать сообщение об ошибке.
+    }
+  }, [error, cleanError]);
+
+  // Чтобы предотвратить ошибку в консоли: "Can't perform a React state update on an unmounted component. ..."
+  useEffect(() => {
+    return () => {
+      setContent('');
+    };
+  }, []);
 
   menuPostEditLinks.find((link) => link.name === 'Сохранить')
     .onClick = handleSaveClick;

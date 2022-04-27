@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import useAppContext from '../hooks/useAppContext';
+import useHttp from '../hooks/useHttp';
 import Post from '../components/Post';
 import CrudMenu from '../components/CrudMenu';
 import { useParams } from 'react-router-dom';
@@ -10,31 +12,47 @@ const menuPostViewLinks = [
 ];
 
 export default function PostViewPage() {
+  const { setWaitingResponse } = useAppContext();
+  const { loading, request, error, cleanError } = useHttp();
+
   const [ post, setPost ] = useState(null);
   const { id } = useParams();
+  
+  const fetchData = useCallback(async () => {
+    const post = await request(`${links.root}/post/${id}`);
+    if (post) setPost(post);
+  }, [id, request]);
+
+  useEffect(() => fetchData(), [fetchData]);
+
+  const handleDeleteClick = async () => {
+    setWaitingResponse(true);
+    await request(`${links.root}/posts/${id}`, { method: 'DELETE' });
+    setWaitingResponse(false);
+  };
+
+  useEffect(() => {
+    if (error) {
+      cleanError();
+      // Здесь можно выдать сообщение об ошибке.
+    }
+  }, [error, cleanError]);
 
   menuPostViewLinks.find((link) => link.name === 'Изменить')
-    .to = `/task2/posts/edit/${id}`;
-
-  const handleDeleteClick = () => {
-    fetch(`${links.root}/posts/${id}`, {
-      method: 'DELETE',
-    }).then((response) => response.json())
-      .then((data) => { if (!data.success) throw new Error('Ошибка при удалении поста.') });
-  };
+  .to = `/task2/posts/edit/${id}`;
 
   menuPostViewLinks.find((link) => link.name === 'Удалить')
     .onClick = handleDeleteClick;
 
-  useEffect(() => {
-    fetch(`${links.root}/post/${id}`)
-      .then((response) => response.json())
-      .then((data) => setPost(data));
-  }, [id]);
-
   return (
     <div className='crud__post-view-page'>
-      {post && <Post post={post} footer={<CrudMenu links={menuPostViewLinks} />} isLink={false} /> }
+      {
+        loading
+        ?
+        <div>Загрузка...</div>
+        :
+        post && <Post post={post} footer={<CrudMenu links={menuPostViewLinks} />} isLink={false} /> 
+      }
     </div>
   );
 }
