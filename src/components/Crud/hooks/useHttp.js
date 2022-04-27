@@ -13,6 +13,7 @@ export default function useHttp() {
       if (!responseFetch.ok) throw new Error(`Ошибка в запросе: ${url}, ${JSON.stringify(opt)}`);
 
       const response = await responseFetch.json();
+      console.log('response', response);
       
       if (!response.success) throw new Error(`Ошибка на сервере: ${response.error}`);
 
